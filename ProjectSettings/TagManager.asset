@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Collision
+  - Door
+  - Wall
+  - Bed
+  - ExtraInventory
+  - ClosetWashroom
   layers:
   - Default
   - TransparentFX
@@ -47,9 +53,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Food
+    uniqueID: 3457554281
+    locked: 0
+  - name: Collision
+    uniqueID: 2891212889
+    locked: 0
   - name: AboveGround
     uniqueID: 2898875665
     locked: 0
+  - name: Home
+    uniqueID: 2950628531
+    locked: 0
+  - name: Bed
+    uniqueID: 3631805549
+    locked: 0
+  - name: Door
+    uniqueID: 3146230153
+    locked: 0
+  - name: Wall
+    uniqueID: 2998899761
+    locked: 0
   - name: Sky
     uniqueID: 2041228077
+    locked: 0
+  - name: House
+    uniqueID: 295757527
     locked: 0

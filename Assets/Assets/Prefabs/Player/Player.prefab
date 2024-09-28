@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7709149495246852961}
   - component: {fileID: 1350033715977293127}
-  - component: {fileID: -5304280958982953239}
   - component: {fileID: -4344307814711115896}
   m_Layer: 0
   m_Name: Player
@@ -86,41 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &-5304280958982953239
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495440918660467281}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5625}
-  m_Size: {x: 1, y: 1.125}
-  m_Direction: 0
 --- !u!114 &-4344307814711115896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71d5bfd143049b40980f3859b82e5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 4
