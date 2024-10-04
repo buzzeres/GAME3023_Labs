@@ -25,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        CharacterStats.mySubclass mySubclass = new CharacterStats.mySubclass();
+        mySubclass.a = 0;
     }
 
     void Update()
