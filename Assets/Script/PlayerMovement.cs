@@ -4,46 +4,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 4f;  // Speed of the player movement
-    private Rigidbody2D rb;
-    public int[] intarray = new int[4];
+    [SerializeField] private float moveSpeed = 4f;  // Speed of the player movement
 
-    void Start()
-    {
-        // Get the Rigidbody2D component attached to the player
-        rb = GetComponent<Rigidbody2D>();
-
-        if (rb == null)
-        {
-            Debug.LogError("Rigidbody2D component missing from the Player object!");
-            return;
-        }
-
-      
-
-        // Set Rigidbody2D properties
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-        CharacterStats.mySubclass mySubclass = new CharacterStats.mySubclass();
-        mySubclass.a = 0;
-    }
-
+    // Update is called once per frame
     void Update()
     {
         HandleMovement();
     }
 
-    // Handle player movement based on input
+    // Handle player movement based on input, moving directly without physics interactions
     private void HandleMovement()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        Vector2 inputVector = new Vector2(x, y);
-        Vector2 velocity = inputVector * moveSpeed;
-
-        rb.velocity = velocity;
+        float x = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime; 
+        float y = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;  
+        transform.Translate(x, y, 0);  // Move player directly without physics
     }
 }
