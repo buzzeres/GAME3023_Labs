@@ -18,13 +18,26 @@ public class BattleHud : MonoBehaviour
         UpdateHud();
     }
 
-    // Method to update the HUD with Pokémon's details
     private void UpdateHud()
     {
-        nameText.text = currentPokemon.Base.Name; // Access Name from Base
-        levelText.text = "Level: " + currentPokemon.Level; // Current Level
-        healthBar.SetHealth((float)currentPokemon.CurrentHealth / currentPokemon.Base.MaxHealth); // Access MaxHealth from Base
+        if (currentPokemon != null)
+        {
+            nameText.text = currentPokemon.Base.Name; // Access Name from Base
+            levelText.text = "Level: " + currentPokemon.Level; // Current Level
+
+            // Ensure the health value is valid
+            if (currentPokemon.CurrentHealth >= 0 && currentPokemon.Base.MaxHealth > 0)
+            {
+                float healthScale = (float)currentPokemon.CurrentHealth / currentPokemon.Base.MaxHealth;
+                healthBar.SetHealth(healthScale); // Set health value to the health bar
+            }
+            else
+            {
+                Debug.LogWarning("Invalid health values: CurrentHealth: " + currentPokemon.CurrentHealth + ", MaxHealth: " + currentPokemon.Base.MaxHealth);
+            }
+        }
     }
+
 
     // Optional: Update the health when damage is taken
     public void UpdateHealth(int damage)

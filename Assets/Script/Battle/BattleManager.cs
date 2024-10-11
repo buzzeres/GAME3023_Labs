@@ -13,8 +13,7 @@ public class BattleManager : MonoBehaviour
 
     public Pokemon Pokemon { get; private set; } // Reference to the current Pokémon
 
-    // This method sets up the Pokémon instance and updates the UI
-    public void SetUP()
+    public void SetUp()
     {
         // Initialize the Pokémon instance with base data and level
         Pokemon = new Pokemon(_base, level);
@@ -33,7 +32,16 @@ public class BattleManager : MonoBehaviour
         battleHud.SetPokemon(Pokemon);
     }
 
-    // Example method to simulate damage for testing purposes
+    // Method to set enemy sprite to front only
+    public void SetEnemySprite()
+    {
+        if (!isPlayerUnit) // Ensure this method is called for the enemy unit only
+        {
+            pokemonImage.sprite = Pokemon.Base.FrontSprite; // Set to front sprite
+        }
+    }
+
+    // Example method to simulate damage (for testing purposes)
     public void SimulateDamage(int damage)
     {
         battleHud.UpdateHealth(damage);

@@ -5,11 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class PokemonBase
 {
-    public string Name;
-    public int MaxHealth;
-    public Sprite BackSprite;
-    public Sprite FrontSprite;
+    public string Name;               // Name of the Pokémon
+    public int MaxHealth;             // Maximum health of the Pokémon (must be greater than 0)
+    public Sprite BackSprite;         // Sprite when facing away
+    public Sprite FrontSprite;        // Sprite when facing towards the player
 }
+
 
 public class Pokemon
 {
