@@ -5,13 +5,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 4f;         // Speed of the player movement
-    [SerializeField] float attackCooldown = 0f;  // Cooldown time for attacks
-    private float lastAttackTime;                  // Time of the last attack
     private Vector2 movement;                      // Vector2 for movement input
     private Rigidbody2D rb;
     public Animator animator;                      // Animator component for handling animations
     private SpriteRenderer spriteRenderer;         // SpriteRenderer to handle sprite flipping
     private Direction currentDirection = Direction.Up; // Default direction is Up
+    private bool isAttacking = false;
 
     // Direction enum to track the current facing direction
     private enum Direction
@@ -83,48 +82,43 @@ public class PlayerMovement : MonoBehaviour
     // Handle attacking logic based on the current movement direction or facing direction
     private void HandleAttack()
     {
-        // Check for attack input, cooldown, and ensure the player is moving before attacking
-        if (Input.GetButtonDown("Fire1") && Time.time >= lastAttackTime + attackCooldown && IsPlayerMoving())
+        if (!isAttacking && Input.GetButtonDown("Fire1"))
         {
             StartAttack();
-            lastAttackTime = Time.time; // Update last attack time
         }
     }
 
     // Start the attack sequence based on the current direction
     private void StartAttack()
     {
-        animator.SetBool("IsAttacking", true); // Trigger attack in Animator
-
-        // Set the attackDirection parameter based on the current direction enum
+        isAttacking = true;
+        // Set the attack direction for the Blend Tree based on the current direction
         switch (currentDirection)
         {
             case Direction.Up:
-                animator.SetInteger("attackDirection", 0); // Up
+                animator.SetInteger("Direction", 0); // Assuming 0 is for Up in Blend Tree
                 break;
             case Direction.Down:
-                animator.SetInteger("attackDirection", 1); // Down
+                animator.SetInteger("Direction", 1); // Assuming 1 is for Down
                 break;
             case Direction.Right:
-                animator.SetInteger("attackDirection", 2); // Right
+                animator.SetInteger("Direction", 2); // Assuming 2 is for Right
                 break;
             case Direction.Left:
-                animator.SetInteger("attackDirection", 3); // Left
+                animator.SetInteger("Direction", 3); // Assuming 3 is for Left
                 break;
         }
 
-        // Play a generic attack animation
-        animator.Play("Player_Attack");
-
-        // Ensure attack ends after the cooldown period
+        animator.SetBool("Player_Attack", true); // Trigger attack animation
         StartCoroutine(EndAttack());
     }
 
-    // Coroutine to end the attack after a brief delay
+    // Coroutine to end the attack after a shorter delay
     private IEnumerator EndAttack()
     {
-        yield return new WaitForSeconds(attackCooldown); // Wait for the cooldown duration
-        animator.SetBool("IsAttacking", false);          // Reset attack state in Animator
+        yield return new WaitForSeconds(0.4f); // Adjust duration as needed
+        isAttacking = false; // Reset attack state
+        animator.SetBool("Player_Attack", false);
     }
 
     // Determine and update the current movement direction based on input
@@ -146,11 +140,5 @@ public class PlayerMovement : MonoBehaviour
         {
             currentDirection = Direction.Left;
         }
-    }
-
-    // Check if the player is currently moving in any direction
-    private bool IsPlayerMoving()
-    {
-        return movement.sqrMagnitude > 0;
     }
 }
