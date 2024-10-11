@@ -8,39 +8,41 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private BattleHud playerHud;      // Reference to the player's HUD
     [SerializeField] private BattleManager enemyUnit;   // Reference to the enemy's battle manager
     [SerializeField] private BattleHud enemyHud;       // Reference to the enemy's HUD
+    [SerializeField] private BattleDialog dialogBox;   // Reference to the dialog box
 
     private void Start()
     {
         SetupBattle();
     }
-
     private void SetupBattle()
     {
-        // Check if player unit is assigned
         if (playerUnit == null)
         {
             Debug.LogError("PlayerUnit is not assigned in BattleSystem!");
             return;
         }
 
-        // Check if enemy unit is assigned
         if (enemyUnit == null)
         {
             Debug.LogError("EnemyUnit is not assigned in BattleSystem!");
             return;
         }
 
-        // Check if player HUD is assigned
         if (playerHud == null)
         {
             Debug.LogError("PlayerHud is not assigned in BattleSystem!");
             return;
         }
 
-        // Check if enemy HUD is assigned
         if (enemyHud == null)
         {
             Debug.LogError("EnemyHud is not assigned in BattleSystem!");
+            return;
+        }
+
+        if (dialogBox == null)
+        {
+            Debug.LogError("DialogBox is not assigned in BattleSystem!");
             return;
         }
 
@@ -51,6 +53,9 @@ public class BattleSystem : MonoBehaviour
         // Initialize the enemy unit
         enemyUnit.SetUp();
         enemyHud.SetPokemon(enemyUnit.Pokemon); // Update the HUD with the enemy's Pokémon
+
+        dialogBox.SetDialog($"A wild {playerUnit.Pokemon.Base.Name} appeared.");
     }
+
 
 }

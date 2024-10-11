@@ -1255,14 +1255,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _base:
-    Name: god
+    Name: Blastoise
     MaxHealth: 100
-    BackSprite: {fileID: 21300000, guid: 612b6aa88e95291469e1d96088ebc649, type: 3}
-    FrontSprite: {fileID: 21300000, guid: 163cdf30ffc80c34d918ea83ab5e762f, type: 3}
+    BackSprite: {fileID: 650877214, guid: 612b6aa88e95291469e1d96088ebc649, type: 3}
+    FrontSprite: {fileID: 1046318322, guid: 163cdf30ffc80c34d918ea83ab5e762f, type: 3}
   level: 7
   isPlayerUnit: 0
   pokemonImage: {fileID: 706589907}
-  battleHud: {fileID: 170737898}
+  battleHud: {fileID: 760168658}
 --- !u!114 &706589907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1543,6 +1543,7 @@ GameObject:
   - component: {fileID: 1101937903}
   - component: {fileID: 1101937905}
   - component: {fileID: 1101937904}
+  - component: {fileID: 1101937906}
   m_Layer: 0
   m_Name: DialogBox
   m_TagString: Untagged
@@ -1609,6 +1610,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101937902}
   m_CullTransparentMesh: 1
+--- !u!114 &1101937906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101937902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e3f27a671ad7640adde8ccc514134e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogText: {fileID: 516511249}
 --- !u!1 &1131645305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,11 +1998,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 141213364}
+  - {fileID: 170737895}
   - {fileID: 1855320436}
+  - {fileID: 760168659}
   - {fileID: 706589905}
   - {fileID: 1101937903}
-  - {fileID: 170737895}
-  - {fileID: 760168659}
   m_Father: {fileID: 1618818463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2201,6 +2215,7 @@ MonoBehaviour:
   playerHud: {fileID: 170737898}
   enemyUnit: {fileID: 706589906}
   enemyHud: {fileID: 760168658}
+  dialogBox: {fileID: 1101937906}
 --- !u!1 &1816065701
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,7 +2388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -414, y: -150}
+  m_AnchoredPosition: {x: -414, y: -140}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855320437
@@ -2427,10 +2442,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _base:
-    Name: god
+    Name: Charmander
     MaxHealth: 100
-    BackSprite: {fileID: 21300000, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
-    FrontSprite: {fileID: 21300000, guid: cd259d9d4f8ba2749a16d1cc64d46bec, type: 3}
+    BackSprite: {fileID: 592303701, guid: 42465f7c45953b24d85aa72aead3f8a7, type: 3}
+    FrontSprite: {fileID: 1653346532, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
   level: 7
   isPlayerUnit: 1
   pokemonImage: {fileID: 1855320437}
