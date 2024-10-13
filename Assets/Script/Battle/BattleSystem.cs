@@ -1,61 +1,175 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum BattleState { START, PLAYERACTION, PLAYERMOVE, ENEMYMOVE, BUSY }
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private BattleManager playerUnit; // Reference to the player's battle manager
-    [SerializeField] private BattleHud playerHud;      // Reference to the player's HUD
-    [SerializeField] private BattleManager enemyUnit;   // Reference to the enemy's battle manager
-    [SerializeField] private BattleHud enemyHud;       // Reference to the enemy's HUD
-    [SerializeField] private BattleDialog dialogBox;   // Reference to the dialog box
+    [SerializeField] BattleManager playerUnit;
+    [SerializeField] BattleHud playerHud;
+    [SerializeField] BattleManager enemyUnit;
+    [SerializeField] BattleHud enemyHud;
+    [SerializeField] BattleDialog dialogBox;
+
+    BattleState state;
+    int currentAction;
+    int currentMove;
 
     private void Start()
     {
-        SetupBattle();
+        StartCoroutine(SetupBattle());
     }
-    private void SetupBattle()
+
+    // Start is called before the first frame update
+    private IEnumerator SetupBattle()
     {
-        if (playerUnit == null)
-        {
-            Debug.LogError("PlayerUnit is not assigned in BattleSystem!");
-            return;
-        }
-
-        if (enemyUnit == null)
-        {
-            Debug.LogError("EnemyUnit is not assigned in BattleSystem!");
-            return;
-        }
-
-        if (playerHud == null)
-        {
-            Debug.LogError("PlayerHud is not assigned in BattleSystem!");
-            return;
-        }
-
-        if (enemyHud == null)
-        {
-            Debug.LogError("EnemyHud is not assigned in BattleSystem!");
-            return;
-        }
-
-        if (dialogBox == null)
-        {
-            Debug.LogError("DialogBox is not assigned in BattleSystem!");
-            return;
-        }
-
-        // Initialize the player's unit
         playerUnit.SetUp();
-        playerHud.SetPokemon(playerUnit.Pokemon); // Update the HUD with the player's Pokémon
+        playerHud.SetData(playerUnit.Pokemon);
 
-        // Initialize the enemy unit
         enemyUnit.SetUp();
-        enemyHud.SetPokemon(enemyUnit.Pokemon); // Update the HUD with the enemy's Pokémon
+        enemyHud.SetData(enemyUnit.Pokemon);
 
-        dialogBox.SetDialog($"A wild {playerUnit.Pokemon.Base.Name} appeared.");
+        dialogBox.SetMoveName(playerUnit.Pokemon.Moves);
+
+        yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared.");
+
+        yield return new WaitForSeconds(1f);
+
+        PlayerAction();
     }
 
+    void PlayerAction()
+    {
+        state = BattleState.PLAYERACTION;
+        StartCoroutine(dialogBox.TypeDialog("Choose an action."));
+        dialogBox.EnableActionSelector(true);
+    }
 
+    void PlayerMove()
+    {
+        state = BattleState.PLAYERMOVE;
+        dialogBox.EnableActionSelector(false);
+        dialogBox.EnableDialogText(false);
+        dialogBox.EnableMoveSelector(true);
+    }
+
+    IEnumerator PerformPlayerMove()
+    {
+        state = BattleState.BUSY;
+
+        var move = playerUnit.Pokemon.Moves[currentMove];
+        Debug.Log($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}");
+        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}.");
+
+        yield return new WaitForSeconds(1f);
+
+        bool isFainted = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        enemyHud.UpdateHP();
+
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted.");
+        }
+        else
+        {
+            StartCoroutine(EnemyMove());
+        }
+    }
+
+    IEnumerator EnemyMove()
+    {
+        state = BattleState.ENEMYMOVE;
+
+        var move = enemyUnit.Pokemon.GetRandomMove();
+        Debug.Log($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}");
+        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}.");
+
+        yield return new WaitForSeconds(1f);
+
+        bool isFainted = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
+        playerHud.UpdateHP();
+
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted.");
+        }
+        else
+        {
+            PlayerAction();
+        }
+    }
+
+    private void Update()
+    {
+        if (state == BattleState.PLAYERACTION)
+        {
+            HandleActionSelection();
+        }
+        else if (state == BattleState.PLAYERMOVE)
+        {
+            HandleMoveSelection();
+        }
+    }
+
+    void HandleActionSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (currentAction < 1)
+            {
+                ++currentAction;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (currentAction > 0)
+            {
+                --currentAction;
+            }
+        }
+
+        dialogBox.UpdateActionSelection(currentAction);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (currentAction == 0)
+            {
+                PlayerMove();
+            }
+            else if (currentAction == 1)
+            {
+                // Run logic if needed
+            }
+        }
+    }
+
+    void HandleMoveSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (currentMove < playerUnit.Pokemon.Moves.Count - 1)
+            {
+                currentMove++;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (currentMove > 0)
+            {
+                currentMove--;
+            }
+        }
+
+        dialogBox.UpdateMoveSelection(currentMove, playerUnit.Pokemon.Moves[currentMove]);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            dialogBox.EnableMoveSelector(false);
+            dialogBox.EnableDialogText(true);
+            StartCoroutine(PerformPlayerMove());
+        }
+    }
 }
