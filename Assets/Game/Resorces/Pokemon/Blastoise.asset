@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd2fc0e534d453a47ade399a49e61fa4, type: 3}
+  m_Name: Blastoise
+  m_EditorClassIdentifier: 
+  name: Blastoise
+  description: 
+  frontSprite: {fileID: 1046318322, guid: 163cdf30ffc80c34d918ea83ab5e762f, type: 3}
+  backSprite: {fileID: 650877214, guid: 612b6aa88e95291469e1d96088ebc649, type: 3}
+  type1: 3
+  type2: 4
+  maxHp: 45
+  attack: 49
+  defense: 65
+  spAttack: 65
+  spDefense: 65
+  speed: 45
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: e38e59c9b8bce0749bc8a68d5ad2956e, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: 6b7affd08a1ccb648a5e4420b6cd4fa0, type: 2}
+    level: 4
+  - moveBase: {fileID: 11400000, guid: 39378957f0529dd499528dfe651385a4, type: 2}
+    level: 7
