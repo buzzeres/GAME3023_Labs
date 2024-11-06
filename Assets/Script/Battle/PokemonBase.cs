@@ -6,7 +6,7 @@ using UnityEngine;
 // Pokémon base class definition
 public class PokemonBase : ScriptableObject
 {
-    [SerializeField] private string name; // Pokémon's name, private field
+    [SerializeField] private new string name; // Pokémon's name, private field
 
     [TextArea]
     [SerializeField] private string description; // Description of the Pokémon
@@ -31,6 +31,7 @@ public class PokemonBase : ScriptableObject
     {
         get { return name; }
     }
+
 
     public string Description
     {

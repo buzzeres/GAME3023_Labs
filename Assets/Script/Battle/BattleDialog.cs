@@ -18,12 +18,11 @@ public class BattleDialog : MonoBehaviour
     [SerializeField] public TextMeshProUGUI ppText;
     [SerializeField] public TextMeshProUGUI typeText;
 
-    [SerializeField] Color LightUpWord;
-
     public void SetDialog(string text)
     {
         DialogText.text = text;
     }
+
 
     public IEnumerator TypeDialog(string text)
     {
@@ -54,16 +53,17 @@ public class BattleDialog : MonoBehaviour
 
     public void UpdateActionSelection(int selectedAction)
     {
+        // Loop through all the actions
         for (int i = 0; i < actionTexts.Count; i++)
         {
             if (i == selectedAction)
             {
-                actionTexts[i].color = LightUpWord;
+                actionTexts[i].color = Color.cyan;
                 Debug.Log($"Highlighting action: {actionTexts[i].text}");
             }
             else
             {
-                actionTexts[i].color = Color.black;
+                actionTexts[i].color = Color.green;
                 Debug.Log($"Resetting action: {actionTexts[i].text}");
             }
         }
@@ -71,6 +71,7 @@ public class BattleDialog : MonoBehaviour
 
     public void SetMoveName(List<Move> moves)
     {
+        // Loop through all the moves
         for (int i = 0; i < moveTexts.Count; i++)
         {
             if (i < moves.Count)
@@ -84,16 +85,17 @@ public class BattleDialog : MonoBehaviour
 
     public void UpdateMoveSelection(int selectedMove, Move move)
     {
+        // Loop through all the moves
         for (int i = 0; i < moveTexts.Count; i++)
         {
             if (i == selectedMove)
             {
-                moveTexts[i].color = LightUpWord;
+                moveTexts[i].color = Color.cyan;
                 Debug.Log($"Highlighting move: {moveTexts[i].text}");
             }
             else
             {
-                moveTexts[i].color = Color.black;
+                moveTexts[i].color = Color.green;
                 Debug.Log($"Resetting move: {moveTexts[i].text}");
             }
 
