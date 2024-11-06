@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Charmander
   description: 
-  frontSprite: {fileID: 592303701, guid: 42465f7c45953b24d85aa72aead3f8a7, type: 3}
-  backSprite: {fileID: 1653346532, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
+  frontSprite: {fileID: 1653346532, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
+  backSprite: {fileID: 592303701, guid: 42465f7c45953b24d85aa72aead3f8a7, type: 3}
   type1: 2
   type2: 7
   maxHp: 45
