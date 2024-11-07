@@ -36,8 +36,6 @@ public class BattleSystem : MonoBehaviour
 
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared.");
 
-        yield return new WaitForSeconds(1f);
-
         PlayerAction();
     }
 
@@ -64,14 +62,19 @@ public class BattleSystem : MonoBehaviour
         Debug.Log($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}");
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}.");
 
+        playerUnit.PlayerAttackMove();
         yield return new WaitForSeconds(1f);
 
-        bool isFainted = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        enemyUnit.PlayerHitSequence();
+        var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
         enemyHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted.");
+            enemyUnit.PlayerFaintAnimation();
         }
         else
         {
@@ -87,14 +90,18 @@ public class BattleSystem : MonoBehaviour
         Debug.Log($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}");
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}.");
 
+        enemyUnit.PlayerAttackMove();
         yield return new WaitForSeconds(1f);
 
-        bool isFainted = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
+        playerUnit.PlayerHitSequence();
+        var damageDetails = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
         playerHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted.");
+            playerUnit.PlayerFaintAnimation();
         }
         else
         {
@@ -102,7 +109,24 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void Update()
+    IEnumerable ShowDamageDetails(DamageDetails damageDetails)
+    {
+        if (damageDetails.Type > 1f)
+        {
+            yield return dialogBox.TypeDialog("It's super effective!");
+        }
+        else if (damageDetails.Type < 1f)
+        {
+            yield return dialogBox.TypeDialog("It's not very effective.");
+        }
+
+        if (damageDetails.Critical > 1f)
+        {
+            yield return dialogBox.TypeDialog("A critical hit!");
+        }
+    }
+
+    public void HandleUpdate()
     {
         if (state == BattleState.PLAYERACTION)
         {

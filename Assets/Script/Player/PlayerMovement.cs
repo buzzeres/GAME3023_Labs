@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    void Update()
+    public void HandleUpdate()
     {
         HandleMovement();
         HandleRotation();
