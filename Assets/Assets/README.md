@@ -30,7 +30,7 @@ UI by Buch - https://opengameart.org/content/golden-ui
 - **Damage Calculation**: [Bulbapedia - Damage Calculation](https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation) - Information on damage calculation for Pokémon moves
 - **Type Chart Reference**: [Pokémon Database - Type Chart](https://pokemondb.net/type/grass) - Provides type advantages and disadvantages for Pokémon types
 
-Don't expect everything in here to be the game. From the videos or assets, I had to make some changes to better fit my needs.
+Don't expect everything in here to be the game, from the videos or assets; I had to make some changes to better suit my needs.
 
 ### Project Management
-- **Trello Board**: [Trello Project Link](#) *(Add your actual Trello link here)*
+- **Trello Board**: [Trello Project Link](https://trello.com/b/ICFO0VT5/game3023-term-project-pokemon-style-turn-based-rpg-battles) *(Add your actual Trello link here)*
