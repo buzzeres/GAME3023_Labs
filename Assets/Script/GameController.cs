@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
 public enum GameState { FreeRoam, Battle }
@@ -7,12 +7,39 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private BattleSystem battleSystem;
+    [SerializeField] private Camera mainCamera;
 
     private GameState state;
 
     private void Start()
     {
-        SetGameState(GameState.FreeRoam); // Start with FreeRoam state
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+
+        playerMovement.isEncountered += () => StartBattle(CollisionType.Encounter);
+        battleSystem.OnEndBattle += EndBattle;
+    }
+
+
+    public void StartBattle(CollisionType type)
+    {
+        if (type == CollisionType.Encounter)
+        {
+            state = GameState.Battle;
+            battleSystem.gameObject.SetActive(true);
+            mainCamera.gameObject.SetActive(false);
+
+            battleSystem.StartBattle();
+        }
+    }
+
+    private void EndBattle(bool playerWin)
+    {
+        state = GameState.FreeRoam;
+        battleSystem.gameObject.SetActive(false);
+        mainCamera.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -25,33 +52,5 @@ public class GameController : MonoBehaviour
         {
             battleSystem.HandleUpdate();
         }
-    }
-
-    // Public method to change the game state
-    public void SetGameState(GameState newState)
-    {
-        state = newState;
-
-        if (state == GameState.FreeRoam)
-        {
-            EnterFreeRoam();
-        }
-        else if (state == GameState.Battle)
-        {
-            EnterBattle();
-        }
-    }
-
-    private void EnterFreeRoam()
-    {
-        playerMovement.enabled = true; // Enable player controls
-        battleSystem.gameObject.SetActive(false); // Disable battle system
-    }
-
-    private void EnterBattle()
-    {
-        playerMovement.enabled = false; // Disable player controls
-        battleSystem.gameObject.SetActive(true); // Enable battle system
-        battleSystem.StartBattle(); // Start battle logic
     }
 }

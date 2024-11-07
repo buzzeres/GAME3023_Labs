@@ -10,6 +10,7 @@ TagManager:
   - Bed
   - ExtraInventory
   - ClosetWashroom
+  - Encounter
   layers:
   - Default
   - TransparentFX
@@ -55,6 +56,9 @@ TagManager:
     locked: 0
   - name: Food
     uniqueID: 3457554281
+    locked: 0
+  - name: Encounter
+    uniqueID: 2497212527
     locked: 0
   - name: Collision
     uniqueID: 2891212889
