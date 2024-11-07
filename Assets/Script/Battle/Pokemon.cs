@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PokemonBase;
 
 
 public class Pokemon
@@ -61,9 +62,23 @@ public class Pokemon
         get { return Mathf.FloorToInt((Base.MaxHp * Level) / 100f) + 10; } 
     }
 
-    public bool TakeDamage(Move move, Pokemon attacker)
+    public DamageDetails TakeDamage(Move move, Pokemon attacker)
     {
-        float modifiers = Random.Range(0.85f, 1f); 
+        float critical = 1f;
+        float  type = TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type1) * TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type2);
+        if (Random.value * 100f <= 6.25f) // 6.25% chance of critical hit 
+        {
+            critical = 2f;
+        }
+
+        var dameageDetails = new DamageDetails()
+        {
+            Type = type,
+            Critical = critical,
+            Fainted = false
+        };
+
+        float modifiers = Random.Range(0.85f, 1f) * type * critical; 
         float a = (2 * attacker.Level + 10) / 250f;
         float d = a * move.Base.Power * ((float)attacker.Attack / Defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
@@ -71,10 +86,11 @@ public class Pokemon
         CurrentHealth -= damage; 
         if (CurrentHealth < 0)
         {
-            CurrentHealth = 0; 
+            CurrentHealth = 0;
+            dameageDetails.Fainted = true;
         }
 
-        return CurrentHealth == 0; 
+        return dameageDetails; 
     }
 
     public Move GetRandomMove()
@@ -83,4 +99,13 @@ public class Pokemon
         return Moves[r];
     }
 
+}
+
+
+public class DamageDetails
+{ 
+
+    public bool Fainted { get; set; }
+    public float Critical { get; set; }
+    public float Type { get; set; }
 }

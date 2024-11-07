@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +10,15 @@ public enum CollisionType
     Bed,
     ExtraInventory,
     ClosetWashroom,
+    Encounter,
     Unknown
 }
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] private BattleSystem battleSystem;
+    [SerializeField] private GameController gameController;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         HandleCollision(collision.gameObject, "Collision");
@@ -49,6 +52,10 @@ public class CollisionHandler : MonoBehaviour
                 HandleBedCollision(other);
                 break;
 
+            case CollisionType.Encounter:
+                gameController.StartBattle(CollisionType.Encounter); // Pass the type to StartBattle
+                break;
+
             case CollisionType.ExtraInventory:
                 HandleExtraInventoryCollision(other);
                 break;
@@ -72,13 +79,11 @@ public class CollisionHandler : MonoBehaviour
     private void HandlePlayerCollision(GameObject player)
     {
         Debug.Log("Player collision handled.");
-        // Add player-specific collision logic here
     }
 
     private void HandleWallCollision(GameObject wall)
     {
         Debug.Log("Wall collision handled.");
-        // Add logic to handle collision with walls or obstacles
     }
 
     private void HandleDoorCollision(GameObject door)
@@ -90,34 +95,38 @@ public class CollisionHandler : MonoBehaviour
     private void HandleBedCollision(GameObject bed)
     {
         Debug.Log("Resting at the bed. Restoring health.");
-        // Implement health restoration logic here
     }
 
     private void HandleExtraInventoryCollision(GameObject inventoryItem)
     {
         Debug.Log("Extra Inventory acquired. Adding items to inventory.");
-        // Implement inventory logic here
     }
 }
 
 
-
-
-
-// Utility class for handling collision type determination
 public static class CollisionUtility
 {
-    // Returns the collision type based on the object's tag
     public static CollisionType GetCollisionType(string tag)
     {
-        return tag switch
+        switch (tag)
         {
-            "Player" => CollisionType.Player,
-            "Collision" => CollisionType.Wall,
-            "Door" => CollisionType.Door,
-            "Bed" => CollisionType.Bed,
-            "ExtraInventory" => CollisionType.ExtraInventory,
-            _ => CollisionType.Unknown,
-        };
+            case "Player":
+                return CollisionType.Player;
+            case "Wall":
+                return CollisionType.Wall;
+            case "Door":
+                return CollisionType.Door;
+            case "Bed":
+                return CollisionType.Bed;
+            case "ExtraInventory":
+                return CollisionType.ExtraInventory;
+            case "ClosetWashroom":
+                return CollisionType.ClosetWashroom;
+            case "Encounter":
+                return CollisionType.Encounter;
+            default:
+                return CollisionType.Unknown;
+        }
     }
 }
+

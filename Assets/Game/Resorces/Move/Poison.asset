@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44cd7942b24bada44b77ada691dadc54, type: 3}
-  m_Name: Tackle
+  m_Name: Poison
   m_EditorClassIdentifier: 
-  moveName: Tackle
+  moveName: 
   description: 
-  type: 1
-  power: 40
-  accuracy: 100
-  pp: 20
+  type: 8
+  power: 200
+  accuracy: 150
+  pp: 80

@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Charmander
   description: 
-  frontSprite: {fileID: 592303701, guid: 42465f7c45953b24d85aa72aead3f8a7, type: 3}
-  backSprite: {fileID: 1653346532, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
+  frontSprite: {fileID: 1653346532, guid: ed8e1d9976a1fd94d961840d8f6e7764, type: 3}
+  backSprite: {fileID: 592303701, guid: 42465f7c45953b24d85aa72aead3f8a7, type: 3}
   type1: 2
   type2: 7
-  maxHp: 45
-  attack: 49
-  defense: 49
-  spAttack: 65
-  spDefense: 65
-  speed: 45
+  maxHp: 39
+  attack: 52
+  defense: 43
+  spAttack: 60
+  spDefense: 50
+  speed: 65
   learnableMoves:
-  - moveBase: {fileID: 11400000, guid: 35ecf25cd453c9c41996c86c0c257b9e, type: 2}
+  - moveBase: {fileID: 11400000, guid: 0ae08c03d487fe04ba54047cfe9fa27c, type: 2}
     level: 1
-  - moveBase: {fileID: 11400000, guid: 6b7affd08a1ccb648a5e4420b6cd4fa0, type: 2}
-    level: 4
-  - moveBase: {fileID: 11400000, guid: 847cb494f3aa5b64a99cf6aa4abc61fb, type: 2}
-    level: 7
+  - moveBase: {fileID: 11400000, guid: 7cb007aa7e31fe646b68c64e1b4313c1, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: 39378957f0529dd499528dfe651385a4, type: 2}
+    level: 1

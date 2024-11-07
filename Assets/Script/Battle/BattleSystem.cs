@@ -1,31 +1,32 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum BattleState { START, PLAYERACTION, PLAYERMOVE, ENEMYMOVE, BUSY }
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] BattleManager playerUnit;
-    [SerializeField] BattleHud playerHud;
-    [SerializeField] BattleManager enemyUnit;
-    [SerializeField] BattleHud enemyHud;
-    [SerializeField] BattleDialog dialogBox;
+    [SerializeField] private BattleManager playerUnit;
+    [SerializeField] private BattleHud playerHud;
+    [SerializeField] private BattleManager enemyUnit;
+    [SerializeField] private BattleHud enemyHud;
+    [SerializeField] private BattleDialog dialogBox;
 
-    BattleState state;
-    int currentAction;
-    int currentMove;
+    public event Action<bool> OnEndBattle;
 
-    private void Start()
+    private BattleState state;
+    private int currentAction;
+    private int currentMove;
+
+    public void StartBattle()
     {
         StartCoroutine(SetupBattle());
     }
 
-    // Start is called before the first frame update
     private IEnumerator SetupBattle()
     {
+        // Set up player and enemy Pokémon data and HUD
         playerUnit.SetUp();
         playerHud.SetData(playerUnit.Pokemon);
 
@@ -35,9 +36,6 @@ public class BattleSystem : MonoBehaviour
         dialogBox.SetMoveName(playerUnit.Pokemon.Moves);
 
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared.");
-
-        yield return new WaitForSeconds(1f);
-
         PlayerAction();
     }
 
@@ -56,22 +54,28 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableMoveSelector(true);
     }
 
-    IEnumerator PerformPlayerMove()
+    private IEnumerator PerformPlayerMove()
     {
         state = BattleState.BUSY;
-
         var move = playerUnit.Pokemon.Moves[currentMove];
-        Debug.Log($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}");
+
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}.");
+        playerUnit.PlayerAttackMove();
 
         yield return new WaitForSeconds(1f);
+        enemyUnit.PlayerHitSequence();
 
-        bool isFainted = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
         enemyHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted.");
+            enemyUnit.PlayerFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnEndBattle?.Invoke(true);
         }
         else
         {
@@ -79,30 +83,54 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator EnemyMove()
+    private IEnumerator EnemyMove()
     {
         state = BattleState.ENEMYMOVE;
-
         var move = enemyUnit.Pokemon.GetRandomMove();
-        Debug.Log($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}");
+
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}.");
+        enemyUnit.PlayerAttackMove();
 
         yield return new WaitForSeconds(1f);
+        playerUnit.PlayerHitSequence();
 
-        bool isFainted = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
+        var damageDetails = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
         playerHud.UpdateHP();
+        yield return ShowDamageDetails(damageDetails);
 
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted.");
+            playerUnit.PlayerFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnEndBattle?.Invoke(false);
         }
         else
         {
-            PlayerAction();
+            StartCoroutine(PlayerMove());
+
         }
     }
 
-    private void Update()
+    private IEnumerator ShowDamageDetails(DamageDetails damageDetails)
+    {
+        if (damageDetails.Type > 1f)
+        {
+            yield return dialogBox.TypeDialog("It's super effective!");
+        }
+        else if (damageDetails.Type < 1f)
+        {
+            yield return dialogBox.TypeDialog("It's not very effective.");
+        }
+
+        if (damageDetails.Critical > 1f)
+        {
+            yield return dialogBox.TypeDialog("A critical hit!");
+        }
+    }
+
+    public void HandleUpdate()
     {
         if (state == BattleState.PLAYERACTION)
         {
@@ -114,21 +142,15 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    void HandleActionSelection()
+    private void HandleActionSelection()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && currentAction < 1)
         {
-            if (currentAction < 1)
-            {
-                ++currentAction;
-            }
+            currentAction++;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && currentAction > 0)
         {
-            if (currentAction > 0)
-            {
-                --currentAction;
-            }
+            currentAction--;
         }
 
         dialogBox.UpdateActionSelection(currentAction);
@@ -141,26 +163,20 @@ public class BattleSystem : MonoBehaviour
             }
             else if (currentAction == 1)
             {
-                // Run logic if needed
+                // Add run logic if needed
             }
         }
     }
 
-    void HandleMoveSelection()
+    private void HandleMoveSelection()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && currentMove < playerUnit.Pokemon.Moves.Count - 1)
         {
-            if (currentMove < playerUnit.Pokemon.Moves.Count - 1)
-            {
-                currentMove++;
-            }
+            currentMove++;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && currentMove > 0)
         {
-            if (currentMove > 0)
-            {
-                currentMove--;
-            }
+            currentMove--;
         }
 
         dialogBox.UpdateMoveSelection(currentMove, playerUnit.Pokemon.Moves[currentMove]);
