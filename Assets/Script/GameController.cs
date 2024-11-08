@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour
         battleSystem.OnEndBattle += EndBattle;
     }
 
-
     public void StartBattle(CollisionType type)
     {
         if (type == CollisionType.Encounter)
@@ -31,7 +30,8 @@ public class GameController : MonoBehaviour
             battleSystem.gameObject.SetActive(true);
             mainCamera.gameObject.SetActive(false);
 
-            battleSystem.StartBattle();
+            playerMovement.DisableMovement(); // Disable player movement when battle starts
+            battleSystem.StartBattle(); // This will reset the battle units and start the battle
         }
     }
 
@@ -40,6 +40,8 @@ public class GameController : MonoBehaviour
         state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
+
+        playerMovement.EnableMovement(); // Enable player movement when battle ends
     }
 
     private void Update()

@@ -2658,7 +2658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1390586706}
   battleSystem: {fileID: 1877030707}
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 2122122692}
 --- !u!4 &1704111674
 Transform:
   m_ObjectHideFlags: 0
@@ -3477,6 +3477,11 @@ Transform:
   - {fileID: 325354437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &2122122692 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5358434271778856142, guid: 7fdfdd232e5ad3646bd250762000621c, type: 3}
+  m_PrefabInstance: {fileID: 820130994}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8371198222422293950
 PrefabInstance:
   m_ObjectHideFlags: 0

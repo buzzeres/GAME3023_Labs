@@ -21,18 +21,19 @@ public class BattleSystem : MonoBehaviour
 
     public void StartBattle()
     {
-        StartCoroutine(SetupBattle());
-    }
-
-    private IEnumerator SetupBattle()
-    {
-        // Set up player and enemy Pokémon data and HUD
+        // Reset player and enemy units
         playerUnit.SetUp();
         playerHud.SetData(playerUnit.Pokemon);
 
         enemyUnit.SetUp();
         enemyHud.SetData(enemyUnit.Pokemon);
 
+        // Start the battle setup coroutine
+        StartCoroutine(SetupBattle());
+    }
+
+    private IEnumerator SetupBattle()
+    {
         dialogBox.SetMoveName(playerUnit.Pokemon.Moves);
 
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared.");
@@ -46,7 +47,7 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableActionSelector(true);
     }
 
-    void PlayerMove()
+    public void PlayerMove()
     {
         state = BattleState.PLAYERMOVE;
         dialogBox.EnableActionSelector(false);
@@ -108,8 +109,7 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerMove());
-
+            PlayerMove(); // Direct method call instead of StartCoroutine
         }
     }
 

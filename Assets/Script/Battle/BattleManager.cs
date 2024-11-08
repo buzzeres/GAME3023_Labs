@@ -15,11 +15,19 @@ public class BattleManager : MonoBehaviour
 
     public Pokemon Pokemon { get; private set; }
 
+    private void Awake()
+    {
+        // Capture the original color once during initialization
+        originalColor = pokemonImage.color;
+    }
+
     public void SetUp()
     {
         Pokemon = new Pokemon(_base, level);
         pokemonImage.sprite = isPlayerUnit ? Pokemon.Base.BackSprite : Pokemon.Base.FrontSprite;
-        originalColor = pokemonImage.color;
+
+        // Reset to the original color with full opacity
+        pokemonImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
 
         Vector3 startPosition = isPlayerUnit ? new Vector3(-1000, -94, 0) : new Vector3(1000, 141, 0);
         targetPosition = isPlayerUnit ? new Vector3(-500, -94, 0) : new Vector3(400, 141, 0);
