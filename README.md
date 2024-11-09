@@ -29,6 +29,9 @@ UI by Buch - https://opengameart.org/content/golden-ui
 ### Reference Information
 - **Damage Calculation**: [Bulbapedia - Damage Calculation](https://bulbapedia.bulbagarden.net/wiki/Damage#Damage_calculation) - Information on damage calculation for Pokémon moves
 - **Type Chart Reference**: [Pokémon Database - Type Chart](https://pokemondb.net/type/grass) - Provides type advantages and disadvantages for Pokémon types
+(https://www.serebii.net/pokedex-swsh/charmander/)
+(https://bulbapedia.bulbagarden.net/wiki/Charmander_(Pok%C3%A9mon))
+(https://pokemondb.net/pokedex/charmander)
 
 Don't expect everything in here to be the game, from the videos or assets; I had to make some changes to better suit my needs.
 

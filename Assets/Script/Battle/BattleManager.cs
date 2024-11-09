@@ -15,11 +15,6 @@ public class BattleManager : MonoBehaviour
 
     public Pokemon Pokemon { get; private set; }
 
-    private void Awake()
-    {
-        // Capture the original color once during initialization
-        originalColor = pokemonImage.color;
-    }
 
     public void SetUp()
     {
@@ -51,14 +46,23 @@ public class BattleManager : MonoBehaviour
         transform.localPosition = destination;
     }
 
+    private void Awake()
+    {
+        // Capture the original color once during initialization
+        originalColor = pokemonImage.color;
+    }
+
     public void PlayerAttackMove() => StartCoroutine(AttackMoveSequence());
 
     private IEnumerator AttackMoveSequence()
     {
         float directionMultiplier = isPlayerUnit ? 1f : -1f;
         Vector3 attackPosition = targetPosition + new Vector3(50f * directionMultiplier, 0, 0);
-        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, attackPosition, 0.25f));
-        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, targetPosition, 0.25f));
+
+        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, attackPosition, 0.50f));
+        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, targetPosition, 0.50f));
+        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, attackPosition, 0.50f));
+        yield return StartCoroutine(MoveToPosition(pokemonImage.transform, targetPosition, 0.50f));
     }
 
     public void PlayerHitSequence() => StartCoroutine(HitEffectSequence());

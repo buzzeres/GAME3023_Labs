@@ -150,7 +150,7 @@ public class PokemonBase : ScriptableObject
             /* FAI */ new float[] {1f,   0.5f,   1f,     1f,     1f,     1f,     2f,     0.5f,   1f,    1f,     1f,     1f,     1f,      1f,     2f,     2f,    0.5f,   1f,},
         };
 
-        public static float GetEffectiveness(PokemonType attackType, PokemonType defenseType)
+        public static float GetEffectValue(PokemonType attackType, PokemonType defenseType)
         {
 
             // If the attack type or defense type is None, return 1

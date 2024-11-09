@@ -66,6 +66,8 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
         enemyUnit.PlayerHitSequence();
 
+        move.PP -= 1; 
+
         var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
         enemyHud.UpdateHP();
         yield return ShowDamageDetails(damageDetails);
@@ -94,6 +96,8 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         playerUnit.PlayerHitSequence();
+
+        move.PP -= 1;
 
         var damageDetails = playerUnit.Pokemon.TakeDamage(move, enemyUnit.Pokemon);
         playerHud.UpdateHP();

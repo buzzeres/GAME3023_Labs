@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44cd7942b24bada44b77ada691dadc54, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  moveName: 
+  moveName: Grass
   description: 
   type: 5
   power: 100

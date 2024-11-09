@@ -65,8 +65,8 @@ public class Pokemon
     public DamageDetails TakeDamage(Move move, Pokemon attacker)
     {
         float critical = 1f;
-        float  type = TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type1) * TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type2);
-        if (Random.value * 100f <= 6.25f) // 6.25% chance of critical hit 
+        float  type = TypeChart.GetEffectValue(move.Base.Type, this.Base.Type1) * TypeChart.GetEffectValue(move.Base.Type, this.Base.Type2);
+        if (Random.value * 100f <= 6.25f) 
         {
             critical = 2f;
         }

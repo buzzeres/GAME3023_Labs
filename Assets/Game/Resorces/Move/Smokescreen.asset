@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44cd7942b24bada44b77ada691dadc54, type: 3}
-  m_Name: Normal
+  m_Name: Smokescreen
   m_EditorClassIdentifier: 
-  moveName: Normal
+  moveName: Smokescreen
   description: 
-  type: 1
-  power: 25
-  accuracy: 75
-  pp: 25
+  type: 2
+  power: 0
+  accuracy: 100
+  pp: 40
